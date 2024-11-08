@@ -19,6 +19,7 @@ int main(void)
 	int err;
 	const struct flash_area *fa = NULL;
 
+	LOG_ERR("");
 	err = flash_area_open(PM_MCUBOOT_ID, &fa);
 	if (!err) {
 		err = flash_area_erase(fa, 0x1000, 0x1000);
