@@ -229,10 +229,10 @@ function(${SYSBUILD_CURRENT_MODULE_NAME}_pre_cmake)
         # We are sure that ED25519 signature on MCUboot does not need these
         set_config_bool(mcuboot CONFIG_PSA_USE_CRACEN_CIPHER_DRIVER n)
         set_config_bool(mcuboot CONFIG_PSA_USE_CRACEN_AEAD_DRIVER n)
-        set_config_bool(mcuboot CONFIG_PSA_USE_CRACEN_MAC_DRIVER n)
-        set_config_bool(mcuboot CONFIG_PSA_USE_CRACEN_KEY_AGREEMENT_DRIVER n)
+        set_config_bool(mcuboot CONFIG_PSA_USE_CRACEN_MAC_DRIVER y)
+        set_config_bool(mcuboot CONFIG_PSA_USE_CRACEN_KEY_AGREEMENT_DRIVER y)
         set_config_bool(mcuboot CONFIG_PSA_USE_CRACEN_PAKE_DRIVER n)
-        set_config_bool(mcuboot CONFIG_PSA_USE_CRACEN_KEY_DERIVATION_DRIVER n)
+        set_config_bool(mcuboot CONFIG_PSA_USE_CRACEN_KEY_DERIVATION_DRIVER y)
 
         if(SB_CONFIG_MCUBOOT_SIGNATURE_USING_KMU)
           set_config_bool(mcuboot CONFIG_BOOT_SIGNATURE_USING_KMU y)

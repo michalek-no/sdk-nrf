@@ -108,8 +108,10 @@ static psa_status_t cracen_ecdh_montgmr_calc_secret(const struct sx_pk_ecurve *c
 	const size_t curve_op_sz = sx_pk_curve_opsize(curve);
 
 	if (publ_key_size != curve_op_sz) {
+printk("cracen_ecdh_montgmr_calc_secret invalid arg %d %d\n",publ_key_size, curve_op_sz);
 		return PSA_ERROR_INVALID_ARGUMENT;
 	} else if (output_size < curve_op_sz) {
+printk("cracen_ecdh_montgmr_calc_secret too small\n");
 		return PSA_ERROR_BUFFER_TOO_SMALL;
 	}
 
@@ -140,10 +142,12 @@ static psa_status_t cracen_ecdh_montgmr_calc_secret(const struct sx_pk_ecurve *c
 	}
 
 	if (sx_status != SX_OK) {
+printk("cracen_ecdh_montgmr_calc_secret sx_stat\n");
 		return silex_statuscodes_to_psa(sx_status);
 	}
 
 	*output_length = curve_op_sz;
+printk("cracen_ecdh_montgmr_calc_secret ok\n");
 
 	return PSA_SUCCESS;
 }
@@ -197,6 +201,7 @@ psa_status_t cracen_key_derivation_setup(cracen_key_derivation_operation_t *oper
 	PSA_ALG_IS_HKDF_EXPAND(operation->alg))) {
 		size_t hash_size = PSA_HASH_LENGTH(PSA_ALG_HKDF_GET_HASH(alg));
 
+printk("setup %x \n", alg);
 		if (hash_size == 0) {
 			return PSA_ERROR_NOT_SUPPORTED;
 		}
@@ -1086,24 +1091,29 @@ psa_status_t cracen_key_agreement(const psa_key_attributes_t *attributes, const 
 
 	psa_status = ecc_key_agreement_check_alg(alg);
 	if (psa_status != PSA_SUCCESS) {
+printk("cracen_key_agreement alg\n");
 		return psa_status;
 	}
 
 	if (!PSA_KEY_TYPE_IS_ECC_KEY_PAIR(psa_get_key_type(attributes))) {
+printk("cracen_key_agreement type\n");
 		return PSA_ERROR_INVALID_ARGUMENT;
 	}
 
 	psa_status = cracen_ecc_get_ecurve_from_psa(curve_family, curve_bits, &curve);
 	if (psa_status != PSA_SUCCESS) {
+printk("cracen_key_agreement curve\n");
 		return PSA_SUCCESS;
 	}
 
 	if (sx_pk_curve_opsize(curve) != priv_key_size) {
+printk("cracen_key_agreement size\n");
 		return PSA_ERROR_INVALID_ARGUMENT;
 	}
 
 	if (IS_ENABLED(PSA_NEED_CRACEN_ECDH_SECP_R1)) {
 		if (cracen_ecc_curve_is_weierstrass(curve_family)) {
+printk("cracen_key_agreement secp\n");
 			return cracen_ecdh_wrstr_calc_secret(curve, priv_key, priv_key_size,
 							     publ_key, publ_key_size, output,
 							     output_size, output_length);
@@ -1112,12 +1122,14 @@ psa_status_t cracen_key_agreement(const psa_key_attributes_t *attributes, const 
 
 	if (IS_ENABLED(PSA_NEED_CRACEN_ECDH_MONTGOMERY)) {
 		if (curve_family == PSA_ECC_FAMILY_MONTGOMERY) {
+printk("cracen_key_agreement mont\n");
 			return cracen_ecdh_montgmr_calc_secret(curve, priv_key, priv_key_size,
 							       publ_key, publ_key_size, output,
 							       output_size, output_length);
 		}
 	}
 
+printk("cracen_key_agreement not sup\n");
 	return PSA_ERROR_NOT_SUPPORTED;
 }
 

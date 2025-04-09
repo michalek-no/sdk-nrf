@@ -2240,6 +2240,7 @@ psa_status_t psa_driver_wrapper_key_derivation_setup(psa_key_derivation_operatio
 	}
 
 	if (status != PSA_ERROR_NOT_SUPPORTED) {
+printk("driver not sup\n");
 		return status;
 	}
 #endif /* PSA_NEED_CRACEN_KEY_DERIVATION_DRIVER */
@@ -2247,6 +2248,7 @@ psa_status_t psa_driver_wrapper_key_derivation_setup(psa_key_derivation_operatio
 	status = oberon_key_derivation_setup(&operation->ctx.oberon_kdf_ctx, alg);
 	if (status == PSA_SUCCESS) {
 		operation->id = PSA_CRYPTO_OBERON_DRIVER_ID;
+printk("driver success\n");
 	}
 	return status;
 #endif /* PSA_NEED_OBERON_KEY_DERIVATION_DRIVER */
@@ -2416,6 +2418,7 @@ psa_status_t psa_driver_wrapper_key_agreement(const psa_key_attributes_t *attrib
 					      publ_key_size, output, output_size, output_length,
 					      alg);
 		if (status != PSA_ERROR_NOT_SUPPORTED) {
+printk("psa_driver_wrapper_key_agreement !not sup cracen\n");
 			return status;
 		}
 #endif /* PSA_NEED_CRACEN_KEY_AGREEMENT_DRIVER */
@@ -2424,6 +2427,7 @@ psa_status_t psa_driver_wrapper_key_agreement(const psa_key_attributes_t *attrib
 			cc3xx_key_agreement(attributes, priv_key, priv_key_size, publ_key,
 					    publ_key_size, output, output_size, output_length, alg);
 		if (status != PSA_ERROR_NOT_SUPPORTED) {
+printk("psa_driver_wrapper_key_agreement !not sup cc\n");
 			return status;
 		}
 #endif /* PSA_NEED_CC3XX_KEY_AGREEMENT_DRIVER */
@@ -2431,10 +2435,12 @@ psa_status_t psa_driver_wrapper_key_agreement(const psa_key_attributes_t *attrib
 		status = oberon_key_agreement(attributes, priv_key, priv_key_size, alg, publ_key,
 					      publ_key_size, output, output_size, output_length);
 		if (status != PSA_ERROR_NOT_SUPPORTED) {
+printk("psa_driver_wrapper_key_agreement !not sup oberon\n");
 			return status;
 		}
 #endif /* PSA_NEED_OBERON_KEY_AGREEMENT_DRIVER */
 		(void)status;
+printk("psa_driver_wrapper_key_agreement not sup\n");
 		return PSA_ERROR_NOT_SUPPORTED;
 	default:
 		/* Key is declared with a lifetime not known to us */
@@ -2447,6 +2453,7 @@ psa_status_t psa_driver_wrapper_key_agreement(const psa_key_attributes_t *attrib
 		(void)output_length;
 		(void)alg;
 
+printk("psa_driver_wrapper_key_agreement inv arg\n");
 		return PSA_ERROR_INVALID_ARGUMENT;
 	}
 }
