@@ -106,7 +106,8 @@ static psa_status_t cracen_ecdh_montgmr_calc_secret(const struct sx_pk_ecurve *c
 {
 	int sx_status;
 	const size_t curve_op_sz = sx_pk_curve_opsize(curve);
-
+printk("publ key ");for(int i=0;i<publ_key_size;i++){printk("%x", publ_key[i]);}printk("\n");
+printk("priv key ");for(int i=0;i<priv_key_size;i++){printk("%x", priv_key[i]);}printk("\n");
 	if (publ_key_size != curve_op_sz) {
 printk("cracen_ecdh_montgmr_calc_secret invalid arg %d %d\n",publ_key_size, curve_op_sz);
 		return PSA_ERROR_INVALID_ARGUMENT;
@@ -141,6 +142,7 @@ printk("cracen_ecdh_montgmr_calc_secret too small\n");
 					   (struct sx_x448_op *)output);
 	}
 
+printk("output ");for(int i=0;i<output_size;i++){printk("%x", output[i]);}printk("\n");
 	if (sx_status != SX_OK) {
 printk("cracen_ecdh_montgmr_calc_secret sx_stat\n");
 		return silex_statuscodes_to_psa(sx_status);
