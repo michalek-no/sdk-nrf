@@ -183,3 +183,9 @@ endmenu
 module = GNSS_SAMPLE
 module-str = GNSS sample
 source "$(ZEPHYR_BASE)/subsys/logging/Kconfig.template.log_config"
+
+# The TF-M profile only exists on the non-secure targets, where TF-M is part of
+# the build.
+choice TFM_PROFILE_TYPE
+	default TFM_PROFILE_TYPE_MINIMAL
+endchoice

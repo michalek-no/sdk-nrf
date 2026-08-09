@@ -40,4 +40,20 @@ endchoice
 
 endmenu
 
+# Controller configuration. On multi-core devices the controller runs on its own
+# core, so these symbols only exist when the controller is part of this image.
+
+configdefault BT_CTLR_DATA_LENGTH_MAX
+	default 251
+
+configdefault BT_CTLR_SDC_CS_MAX_ANTENNA_PATHS
+	default 1
+
+configdefault BT_CTLR_SDC_CS_NUM_ANTENNAS
+	default 1
+
+choice BT_CTLR_SDC_CS_ROLE
+	default BT_CTLR_SDC_CS_ROLE_INITIATOR_ONLY
+endchoice
+
 source "Kconfig.zephyr"

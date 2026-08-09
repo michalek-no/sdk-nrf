@@ -74,9 +74,13 @@ tests:
     sysbuild: true
     build_only: true
     extra_args:
-      - OVERLAY_CONFIG="overlay-aod.conf"
       - ipc_radio_OVERLAY_CONFIG="../../overlay-bt_ll_sw_split.conf"
       - ipc_radio_SNIPPET="bt-ll-sw-split"
+      # The controller runs on the network core, so antenna switching is
+      # configured there rather than through overlay-aod.conf.
+      - ipc_radio_CONFIG_BT_CTLR_DF_ANT_SWITCH_TX=y
+    extra_configs:
+      - CONFIG_BT_DF_CTE_TX_AOD=y
     platform_allow:
       - nrf5340dk/nrf5340/cpuapp
     integration_platforms:

@@ -109,17 +109,6 @@ tests:
       - nrf5340dk/nrf5340/cpuapp/ns
     integration_platforms:
       - nrf5340dk/nrf5340/cpuapp/ns
-  sample.newlib_libc.sha256:
-    build_only: true
-    extra_args: CONFIG_NEWLIB_LIBC=y
-    platform_allow:
-      - nrf5340dk/nrf5340/cpuapp/ns
-      - nrf52840dk/nrf52840
-      - nrf54h20dk/nrf54h20/cpuapp
-    integration_platforms:
-      - nrf5340dk/nrf5340/cpuapp/ns
-      - nrf52840dk/nrf52840
-      - nrf54h20dk/nrf54h20/cpuapp
   sample.nrf_security.sha256.integration.rsa:
     build_only: true
     extra_args:

@@ -248,6 +248,69 @@ endif # UART_1_ASYNC
 
 endmenu # Modem Shell
 
+# The settings below only exist in some of the supported build variants, for
+# example TF-M is only built for the non-secure targets and the CoAP options
+# only when nRF Cloud CoAP is the selected cloud transport. Expressing them as
+# defaults applies them wherever they exist and leaves the other variants alone.
+
+# Shell RX buffer needs to be increased to avoid problems with test automation
+configdefault SHELL_BACKEND_SERIAL_RX_RING_BUFFER_SIZE
+	default 512
+
+# Use interrupt driven shell UART, otherwise we won't be able to suspend the UART
+choice SHELL_BACKEND_SERIAL_API
+	default SHELL_BACKEND_SERIAL_API_INTERRUPT_DRIVEN
+endchoice
+
+configdefault POWEROFF
+	default y
+
+choice NVS_LOG_LEVEL_CHOICE
+	default NVS_LOG_LEVEL_WRN
+endchoice
+
+choice TFM_PROFILE_TYPE
+	default TFM_PROFILE_TYPE_MINIMAL
+endchoice
+
+# Enable TF-M logging on UART0
+choice TFM_SECURE_UART_INSTANCE
+	default TFM_SECURE_UART0
+endchoice
+
+choice TFM_SPM_LOG_LEVEL
+	default TFM_SPM_LOG_LEVEL_DEBUG
+endchoice
+
+configdefault TFM_EXCEPTION_INFO_DUMP
+	default y
+
+# Zephyr CoAP client
+configdefault COAP_CLIENT_BLOCK_SIZE
+	default 1024
+
+configdefault COAP_CLIENT_STACK_SIZE
+	default 6144
+
+configdefault COAP_CLIENT_THREAD_PRIORITY
+	default 0
+
+configdefault COAP_EXTENDED_OPTIONS_LEN
+	default y
+
+configdefault COAP_EXTENDED_OPTIONS_LEN_VALUE
+	default 80
+
+# Report standard information to shadow
+configdefault NRF_CLOUD_SEND_DEVICE_STATUS
+	default y
+
+configdefault NRF_CLOUD_SEND_DEVICE_STATUS_NETWORK
+	default y
+
+configdefault NRF_CLOUD_SEND_DEVICE_STATUS_SIM
+	default y
+
 menu "Zephyr Kernel"
 source "Kconfig.zephyr"
 endmenu
