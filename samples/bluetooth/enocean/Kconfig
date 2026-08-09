@@ -4,6 +4,12 @@
 # SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
 #
 
+# Controller configuration. On multi-core devices the controller runs on its own
+# core, so these symbols only exist when the controller is part of this image.
+
+configdefault BT_CTLR_DUP_FILTER_LEN
+	default 0
+
 source "Kconfig.zephyr"
 
 config SETTINGS
